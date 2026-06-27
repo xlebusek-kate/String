@@ -1,7 +1,10 @@
 package org.skypro.model.Product;
 
 
+import org.springframework.stereotype.Service;
+
 import java.util.UUID;
+
 
 public class SimpleProduct extends Product {
     private final int price;

@@ -17,9 +17,11 @@ public class StorageService {
     public StorageService() {
         this.mapOfArticle = new HashMap<>();
         this.mapOfProduct = new HashMap<>();
-        mapOfProduct.put(UUID.randomUUID(), new FixPriceProduct("Самолет", UUID.randomUUID()));
+        UUID uuid = UUID.randomUUID();
+        mapOfProduct.put(uuid, new FixPriceProduct("Самолет", UUID.randomUUID()));
         mapOfArticle.put(UUID.randomUUID(), new Article("Книга", "Война и мир", UUID.randomUUID()));
         mapOfProduct.put(UUID.randomUUID(), new SimpleProduct("Машинка", 1200 , UUID.randomUUID()));
+        System.out.println("Самолет" + uuid);
     }
 
     public Collection<Article> getMapOfArticle() {
@@ -39,5 +41,9 @@ public class StorageService {
             collectionOfSearchable.add(mapOfProduct.get(keys));
         }
         return collectionOfSearchable;
+    }
+
+    public Optional<Product> getProductByID(UUID uuid){
+        return Optional.ofNullable(mapOfProduct.get(uuid));
     }
 }

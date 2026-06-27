@@ -3,6 +3,10 @@ package org.skypro.model.Product;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.skypro.model.Search.Searchable;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 
 public abstract class Product implements Searchable {
     private final String productName;
