@@ -2,18 +2,15 @@ package org.skypro.model.Controler;
 
 import org.skypro.model.Article.Article;
 import org.skypro.model.Basket.ProductBasket;
-import org.skypro.model.BasketItem;
-import org.skypro.model.BasketService;
+import org.skypro.model.BasketService.BasketService;
+import org.skypro.model.BasketService.UserBasket;
+import org.skypro.model.Exception.NoSuchProductException;
 import org.skypro.model.Product.Product;
 import org.skypro.model.Service.SearchResult;
 import org.skypro.model.Service.SearchService;
 import org.skypro.model.Service.StorageService;
-import org.skypro.model.UserBasket;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -50,7 +47,8 @@ public class ShopController {
 
     @GetMapping("/basket/{id}")
     public String addProduct(@PathVariable("id") UUID id) {
-        storageService.getProductByID(id).orElseThrow(() -> new IllegalArgumentException("Ошибка"));
+        if (storageService.getProductByID(id).isEmpty()){
+        throw new NoSuchProductException();}
         productBasket.addProduct(id);
         return "Продукт c id = " + id + " был добавлен" ;
     }

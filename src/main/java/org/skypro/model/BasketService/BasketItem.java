@@ -1,9 +1,6 @@
-package org.skypro.model;
+package org.skypro.model.BasketService;
 
-import org.skypro.model.Basket.ProductBasket;
 import org.skypro.model.Product.Product;
-import org.skypro.model.Service.StorageService;
-import org.springframework.stereotype.Service;
 
 public class BasketItem {
     private final Product product;
