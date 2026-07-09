@@ -1,13 +1,13 @@
-package org.skypro.model;
+package org.skypro.model.BasketService;
 
 import org.skypro.model.Basket.ProductBasket;
+import org.skypro.model.Exception.NoSuchProductException;
 import org.skypro.model.Product.Product;
 import org.skypro.model.Service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class BasketService {
@@ -35,6 +35,9 @@ public class BasketService {
         for (Map.Entry<UUID, Integer> entry : basketMap.entrySet()) {
             UUID productId = entry.getKey();
             int quantity = entry.getValue();
+            if(storageService.getProductByID(productId).isEmpty()){
+                throw new NoSuchProductException();
+            }
             Optional<Product> productOpt = storageService.getProductByID(productId);
 
             if (productOpt.isPresent()) {
