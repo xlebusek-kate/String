@@ -15,7 +15,7 @@ public class SearchService {
     }
 
     public Collection<SearchResult> search (String pattern){
-        return storageService.searchInStorageService().stream().filter(item -> item.getSearchTerms().contains(pattern))
+        return storageService.getCollectionAllProducts().stream().filter(item -> item.getSearchTerms().contains(pattern))
                 .map(SearchResult :: fromSearchable)
                 .collect(Collectors.toList());
     }
