@@ -1,6 +1,7 @@
 package org.skypro.model.Service;
 
 import org.skypro.model.Article.Article;
+import org.skypro.model.NullInListException;
 import org.skypro.model.Product.FixPriceProduct;
 import org.skypro.model.Product.Product;
 import org.skypro.model.Product.SimpleProduct;
@@ -21,7 +22,7 @@ public class StorageService {
         mapOfProduct.put(uuid, new FixPriceProduct("Самолет", UUID.randomUUID()));
         mapOfArticle.put(UUID.randomUUID(), new Article("Книга", "Война и мир", UUID.randomUUID()));
         mapOfProduct.put(UUID.randomUUID(), new SimpleProduct("Машинка", 1200 , UUID.randomUUID()));
-        System.out.println("Самолет" + uuid);
+        System.out.println("Самолет  " + uuid);
     }
 
     public Collection<Article> getMapOfArticle() {
@@ -32,7 +33,7 @@ public class StorageService {
         return mapOfProduct.values();
     }
 
-    public Collection<Searchable> searchInStorageService() {
+    public Collection<Searchable> getCollectionAllProducts() {
         Collection<Searchable> collectionOfSearchable = new ArrayList<>();
         for (UUID keys : mapOfArticle.keySet()){
         collectionOfSearchable.add(mapOfArticle.get(keys));
@@ -40,10 +41,15 @@ public class StorageService {
         for (UUID keys : mapOfProduct.keySet()){
             collectionOfSearchable.add(mapOfProduct.get(keys));
         }
+        if(collectionOfSearchable.isEmpty()) {
+            throw new NullInListException("Лист пуст");
+        }
         return collectionOfSearchable;
     }
 
     public Optional<Product> getProductByID(UUID uuid){
         return Optional.ofNullable(mapOfProduct.get(uuid));
     }
+
+
 }

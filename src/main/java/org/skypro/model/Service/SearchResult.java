@@ -17,4 +17,8 @@ public class SearchResult {
     public static SearchResult fromSearchable (Searchable searchable){
         return new SearchResult(searchable.getId(), searchable.getSearchTerms(),searchable.getContentType());
     }
+
+    public String getName() {
+        return name;
+    }
 }
