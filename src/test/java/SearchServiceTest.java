@@ -38,18 +38,18 @@ public class SearchServiceTest {
     @Test
     public void testSearchInStorageService_whenStorageServiceHasInappropriateValues() {
         Collection<Searchable> products = new ArrayList<>();
-        products.add(new SimpleProduct("NameOfProduct1", 100 , UUID.randomUUID()));
-        products.add(new FixPriceProduct("NameOfProduct2" , UUID.randomUUID()));
+        products.add(new SimpleProduct("NameOfProduct1", 100, UUID.randomUUID()));
+        products.add(new FixPriceProduct("NameOfProduct2", UUID.randomUUID()));
         when(storageService.getCollectionAllProducts()).thenReturn(products);
-        searchService.search("NameOfProduct3");
-        assertThat(products).isEmpty();
+        Collection<SearchResult> results = searchService.search("NameOfProduct3");
+        assertThat(results).isEmpty();
     }
 
     @Test
     public void testSearchInStorageService_whenStorageServiceHasSuitableValues() {
         Collection<Searchable> products = new ArrayList<>();
-        products.add(new SimpleProduct("NameOfProduct1", 100 , UUID.randomUUID()));
-        products.add(new FixPriceProduct("TestProduct" , UUID.randomUUID()));
+        products.add(new SimpleProduct("NameOfProduct1", 100, UUID.randomUUID()));
+        products.add(new FixPriceProduct("TestProduct", UUID.randomUUID()));
         when(storageService.getCollectionAllProducts()).thenReturn(products);
         Collection<SearchResult> result = searchService.search("Test");
         assertThat(result).hasSize(1);

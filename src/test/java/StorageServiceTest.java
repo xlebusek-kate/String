@@ -5,6 +5,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.skypro.model.Article.Article;
 import org.skypro.model.Basket.ProductBasket;
+import org.skypro.model.BasketService.BasketItem;
 import org.skypro.model.BasketService.BasketService;
 import org.skypro.model.BasketService.UserBasket;
 import org.skypro.model.Product.FixPriceProduct;
@@ -16,6 +17,7 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.useRepresentation;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -34,7 +36,7 @@ public class StorageServiceTest {
     public void addNonexistentProduct_throwException() {
         UUID uuid = UUID.randomUUID();
         when(storageService.getProductByID(uuid)).thenReturn(Optional.empty());
-        assertThrows(IllegalArgumentException.class, () -> productBasket.addProduct(uuid));
+        assertThrows(IllegalArgumentException.class, () -> basketService.addById(uuid));
     }
 
     @Test
@@ -42,7 +44,7 @@ public class StorageServiceTest {
         UUID uuid = UUID.randomUUID();
         Product product = new SimpleProduct("Банан", 100, uuid);
         when(storageService.getProductByID(uuid)).thenReturn(Optional.of(product));
-        productBasket.addProduct(uuid);
+        basketService.addById(uuid);
         verify(productBasket, times(1)).addProduct(uuid);
     }
 
@@ -65,9 +67,10 @@ public class StorageServiceTest {
         UserBasket userBasket = basketService.getUserBasket();
         assertThat(userBasket.getBasketWithTotal().size()).isEqualTo(productBasket1.size());
         assertThat(userBasket.getTotal()).isEqualTo(product.getPrice()* productBasket1.get(uuid));
-
-
-
+        List<BasketItem> basketItems = userBasket.getBasketWithTotal();
+        BasketItem basketItem = basketItems.get(0);
+        assertEquals(product , basketItem.getProduct());
+        assertEquals(7, basketItem.getQuantity());
     }
 }
 
